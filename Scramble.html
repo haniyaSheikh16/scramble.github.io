@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Scramble.css">
+    <title>Game</title>
+</head>
+
+<body>
+    <header>
+        <h1>Guess the word game</h1>
+    </header>
+    <section>
+           <div class="gameArea">
+                <h3 class="msg"></h3>
+                <input type="text" class="hidden">
+                <button class="btn">Click here to start</button> 
+           </div> 
+    </section>
+
+
+
+    <script>
+        const msg = document.querySelector('.msg');
+        const guess = document.querySelector('input');
+        const btn = document.querySelector('.btn');
+        let play = false;
+        let newWords = " ";
+        let  randWords = " ";
+        let sWords = ['php', 'c++.', 'bootstrap', 'iphone', 'c#', 'html', 'css', 'robot',
+         'angular', 'engineering','android','programming','samsung','software'];
+        
+         const CreteNewWords = () => {
+            //* console.log(sWords[1]);
+            let ranNum = Math.floor(Math.random() * sWords.length);
+            //*console.log(ranNum);
+            let newTempSwords = sWords[ranNum];
+            //*console.log(newTempSwords.split(""));
+            return newTempSwords;
+         }
+            
+            const scrambleWords = (arr) =>{
+                for (let i =arr.length-1; i>0; i--){
+                    let temp = arr[i];
+                    console.log(temp);
+                    let j = Math.floor(Math.random()*(i+1));
+                    console.log(i);
+                    console.log(j);
+
+                    arr[i] = arr[j];
+                    arr[j] =  temp;
+                }
+
+                return arr;
+                
+            }
+                  
+        btn.addEventListener('click', function()
+        {
+            if(!play){
+                play = true;
+                btn.innerHTML="Guess";
+                guess.classList.toggle('hidden');
+                newWords = CreteNewWords(); 
+                randWords = scrambleWords(newWords.split("")).join(""); 
+                //*console.log(randWords.join("")); 
+                msg.innerHTML = `Guess the Word: ${randWords}` ;  
+
+            }else{
+                let tempWord = guess.value;
+                if (tempWord === newWords){
+                    //*console.log('correct');
+                    play = false;
+                    msg.innerHTML = `Awesome it's Correct. it is ${newWords}`;
+                       btn.innerHTML = "Start Again";
+                       guess.classList.toggle('hidden');
+                       guess.value = "" ;
+                }else{
+                    console.log('incorrect');
+                    msg.innerHTML = `Sorry ! it's not Correct. try again ${randWords}`;
+                }
+            }
+        })
+        </script>
+        
+</body>
+</html>
